@@ -89,23 +89,29 @@ if __name__ == "__main__":
         description='Choose Task Manager behaviour')
     parser.add_argument('--behaviour',
                         type=str,
+                        metavar='',
                         default='default',
                         choices=['default', 'fifo', 'priority_based'],
                         help='behaviour of task manager, one of [default, fifo, priority_based]')
     parser.add_argument('--capacity',
                         type=int,
+                        metavar='',
                         default=10,
                         help='capacity of task manager')
     parser.add_argument('--low_processes_count',
+                        dest='low_processes_count',
                         type=int,
+                        metavar='',
                         default=15,
                         help='number of low priority processes to create')
     parser.add_argument('--medium_processes_count',
                         type=int,
-                        default=1,
+                        metavar='',
+                        default=7,
                         help='number of medium priority processes to create')
     parser.add_argument('--high_processes_count',
                         type=int,
+                        metavar='',
                         default=10,
                         help='number of high priority processes to create')
     args = parser.parse_args()

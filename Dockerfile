@@ -17,6 +17,7 @@ RUN apk add --no-cache --virtual build-dependencies gcc musl-dev && \
 
 FROM base_unit_tests AS unit_tests
 COPY . .
+RUN pip install pytest
 RUN pytest tests/unit_tests || true
 
 FROM base AS base_package
@@ -33,4 +34,4 @@ FROM base AS release
 COPY --from=package /tmp/dist /tmp/dist
 RUN pip install /tmp/dist/*.whl
 
-CMD ["python", "-m", "task_manager_service"]
+ENTRYPOINT ["python", "-m", "task_manager_service"]

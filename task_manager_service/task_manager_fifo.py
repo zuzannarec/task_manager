@@ -16,9 +16,9 @@ class TaskManagerFifo(TaskManagerDefault):
             if len(self.pids) >= self.capacity:
                 pid_to_remove = self.pids.pop()  # remove pid of the oldest process
         if pid_to_remove:
-            await self.kill(pid_to_remove)  # rkill the oldest process
             logger.warning(
-                f"The maximum capacity {self.capacity} has been reached. Process with pid {pid_to_remove} removed")
+                f"The maximum capacity {self.capacity} has been reached. Removing process with pid {pid_to_remove}")
+            await self.kill(pid_to_remove)  # kill the oldest process
         pid = await process.run(self.finished)
         async with self.processes_lock:
             self.pids.append(pid)
