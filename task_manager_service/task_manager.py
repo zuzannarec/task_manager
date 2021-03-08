@@ -1,11 +1,12 @@
 import abc
+import uuid
 
-from task_manager_service.Process import Process
+from task_manager_service.process_mock import ProcessMock
 
 
-class TaskManager(metaclass=abc.ABCMeta):
+class ITaskManager(metaclass=abc.ABCMeta):
     @abc.abstractmethod
-    async def add(self, process: Process) -> str:
+    async def add(self, process: ProcessMock) -> (uuid.uuid1, None):
         pass
 
     @abc.abstractmethod
