@@ -33,4 +33,4 @@ FROM base AS release
 COPY --from=package /tmp/dist /tmp/dist
 RUN pip install /tmp/dist/*.whl
 
-CMD python -m task_manager_service
+CMD ["python", "-m", "task_manager_service"]
