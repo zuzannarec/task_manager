@@ -39,27 +39,36 @@ async def scenario(behaviour: str, capacity: int, processes_to_create: dict):
                 all_processes.append(process)
         random.shuffle(all_processes)  # shuffle to run processes with different priorities in random order
         for process in all_processes:
-                pid = await t.add(process)
-                if pid is None:
-                    continue
-                pids.append(pid)
-                processes.append(process)
-        # choose random pid to kill from first half of list
-        pid_to_kill = pids[random.randint(0, (len(pids) - 1) // 2)]
-        # choose random process to set completed from second half of list
-        process_to_complete = processes[random.randint((len(pids) - 1) // 2 + 1, len(pids) - 1)]
+            pid = await t.add(process)
+            if pid is None:
+                continue
+            pids.append(pid)
+            processes.append(process)
+
+        process_to_complete = None
+        pid_to_kill = None
+        if len(pids) == 1:
+            process_to_complete = processes[0]
+            pid_to_kill = 0
+        elif len(pids) > 1:
+            # choose random process to set completed from first half of list
+            process_to_complete = processes[random.randint(0, (len(pids) - 1) // 2)]
+            # choose random pid to kill from first second of list
+            pid_to_kill = pids[random.randint((len(pids) - 1) // 2 + 1, len(pids) - 1)]
 
         # 2. List processes in order based on priority, id and time
         await list_all(t)
 
         # 3. Set a single, randomly chosen process completed
-        await process_to_complete.set_completed()
+        if process_to_complete is not None:
+            await process_to_complete.set_completed()
 
         # 4. List processes in order based on priority, id and time
         await list_all(t)
 
         # 5. Kill a single process with randomly chosen pid
-        await t.kill(pid_to_kill)
+        if pid_to_kill is not None:
+            await t.kill(pid_to_kill)
 
         # 6. List processes in order based on priority, id and time
         await list_all(t)
