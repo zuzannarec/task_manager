@@ -25,7 +25,7 @@ setup(
     author='Zuzanna Rec',
     author_email='zuzanna.rec@gmail.com',
     version='1.0.0',
-    description='Text uploader',
+    description='Task Manager',
     long_description=read('README.md'),
     long_description_content_type='text/markdown',
     packages=find_packages(exclude=['tests', 'tests.*']),
